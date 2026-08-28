@@ -1,0 +1,36 @@
+:root {
+	/* Base colors */
+	--color-background: #F2ECDC;
+	--color-surface: #FBF8F0;
+	--color-surface-2: #F7F1E4;
+	--color-border: #D9CBAA;
+	--color-text: #2B2015;
+	--color-text-muted: #6B5D46;
+	--color-accent: #B2512E;
+	--color-accent-secondary: #4B6B43;
+
+	/* Functional colors */
+	--color-success: #4B7752;
+	--color-warning: #C98A2E;
+	--color-error: #A23B2E;
+	--color-info: #5B7C99;
+
+	/* Rarity colors */
+	--color-rarity-common: #A9825C;
+	--color-rarity-uncommon: #A15C32;
+	--color-rarity-rare: #93A0A6;
+	--color-rarity-epic: #C98A2E;
+	--color-rarity-legendary: #6B5B95;
+
+	/* Typography */
+	--font-display: 'Fraunces', serif;
+	--font-body: 'Lora', serif;
+	--font-mono: 'IBM Plex Mono', monospace;
+
+	/* Border radius */
+	--radius-card: 4px;
+	--radius-inline: 2px;
+
+	/* Elevation */
+	--shadow-color: rgba(60, 40, 20, 0.08);
+}

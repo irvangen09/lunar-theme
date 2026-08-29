@@ -10,11 +10,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Enqueues the main stylesheet and outputs any Customizer color overrides
- * as inline CSS custom properties on top of it.
+ * Enqueues the default design tokens, the main stylesheet, and outputs
+ * any Customizer color overrides as inline CSS custom properties on top.
  */
 function lunar_enqueue_styles(): void {
-	wp_enqueue_style( 'lunar-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
+	$version = wp_get_theme()->get( 'Version' );
+
+	wp_enqueue_style(
+		'lunar-tokens',
+		get_template_directory_uri() . '/assets/css/tokens.css',
+		array(),
+		$version
+	);
+
+	wp_enqueue_style(
+		'lunar-style',
+		get_stylesheet_uri(),
+		array( 'lunar-tokens' ),
+		$version
+	);
 
 	$overrides = array();
 

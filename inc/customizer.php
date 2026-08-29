@@ -1,6 +1,6 @@
 <?php
 /**
- * Customizer controls for overriding the theme's default colors.
+ * Customizer controls for overriding the theme's default colors and fonts.
  *
  * @package Lunar
  */
@@ -76,8 +76,82 @@ function lunar_get_color_value( string $token_key ): string {
 }
 
 /**
- * Registers the Lunar Style Settings panel, Colors section, and one
- * color picker control per token from lunar_get_color_tokens().
+ * Customizable font tokens: CSS variable name, default family, and Customizer label.
+ *
+ * @return array<string, array{var: string, default: string, label: string}>
+ */
+function lunar_get_font_tokens(): array {
+	return array(
+		'display' => array(
+			'var'     => '--font-display',
+			'default' => 'Fraunces',
+			'label'   => __( 'Display Font', 'lunar' ),
+		),
+		'body'    => array(
+			'var'     => '--font-body',
+			'default' => 'Lora',
+			'label'   => __( 'Body Font', 'lunar' ),
+		),
+		'mono'    => array(
+			'var'     => '--font-mono',
+			'default' => 'IBM Plex Mono',
+			'label'   => __( 'Monospace Font', 'lunar' ),
+		),
+	);
+}
+
+/**
+ * Returns a font token's active family name: the saved override, or its default.
+ *
+ * @param string $token_key Key from lunar_get_font_tokens(), e.g. 'display'.
+ * @return string Google Fonts family name.
+ */
+function lunar_get_font_value( string $token_key ): string {
+	$tokens = lunar_get_font_tokens();
+
+	if ( ! isset( $tokens[ $token_key ] ) ) {
+		return '';
+	}
+
+	return get_theme_mod( "lunar_font_{$token_key}", $tokens[ $token_key ]['default'] );
+}
+
+/**
+ * Returns a font token's active value as a ready-to-use CSS font-family
+ * declaration, with the generic fallback resolved from its bundled category.
+ *
+ * @param string $token_key Key from lunar_get_font_tokens(), e.g. 'display'.
+ * @return string e.g. "'Fraunces', serif".
+ */
+function lunar_get_font_css_value( string $token_key ): string {
+	$family   = lunar_get_font_value( $token_key );
+	$fonts    = lunar_get_google_fonts();
+	$category = $fonts[ $family ] ?? 'sans-serif';
+
+	return "'{$family}', {$category}";
+}
+
+/**
+ * Sanitizes a font selection, falling back to the setting's own default if
+ * the submitted value isn't a recognized bundled Google Fonts family.
+ *
+ * @param string               $value   Submitted value.
+ * @param WP_Customize_Setting $setting Setting instance being sanitized.
+ * @return string
+ */
+function lunar_sanitize_font_choice( string $value, WP_Customize_Setting $setting ): string {
+	$fonts = lunar_get_google_fonts();
+
+	if ( isset( $fonts[ $value ] ) ) {
+		return $value;
+	}
+
+	return $setting->default;
+}
+
+/**
+ * Registers the Lunar Style Settings panel, and the Colors and Typography
+ * sections with one control per token.
  *
  * @param WP_Customize_Manager $wp_customize Customizer manager instance.
  */
@@ -119,6 +193,39 @@ function lunar_customize_register( WP_Customize_Manager $wp_customize ): void {
 					'section' => 'lunar_colors',
 					'label'   => $token['label'],
 				)
+			)
+		);
+	}
+
+	$wp_customize->add_section(
+		'lunar_typography',
+		array(
+			'title' => __( 'Typography', 'lunar' ),
+			'panel' => 'lunar_style_settings',
+		)
+	);
+
+	$font_choices = array_combine( array_keys( lunar_get_google_fonts() ), array_keys( lunar_get_google_fonts() ) );
+
+	foreach ( lunar_get_font_tokens() as $token_key => $token ) {
+		$setting_id = "lunar_font_{$token_key}";
+
+		$wp_customize->add_setting(
+			$setting_id,
+			array(
+				'default'           => $token['default'],
+				'sanitize_callback' => 'lunar_sanitize_font_choice',
+				'transport'         => 'refresh',
+			)
+		);
+
+		$wp_customize->add_control(
+			$setting_id,
+			array(
+				'section' => 'lunar_typography',
+				'label'   => $token['label'],
+				'type'    => 'select',
+				'choices' => $font_choices,
 			)
 		);
 	}

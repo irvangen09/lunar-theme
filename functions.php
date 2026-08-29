@@ -41,5 +41,6 @@ function lunar_enqueue_assets(): void {
 }
 add_action( 'wp_enqueue_scripts', 'lunar_enqueue_assets' );
 
+require get_template_directory() . '/inc/google-fonts.php';
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/enqueue.php';

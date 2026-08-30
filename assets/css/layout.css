@@ -1,0 +1,377 @@
+/**
+ * Layout & shared component styles — loaded on every page.
+ * Covers: site wrapper, site header (incl. nav dropdown), and site footer.
+ */
+
+.lunar-site-wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+/* ---------------------------------------------------------------------
+   Skip link
+   ------------------------------------------------------------------ */
+
+.lunar-skip-link.screen-reader-text {
+	position: absolute;
+	left: -9999px;
+	top: 0;
+	z-index: 100000;
+	background: var( --color-surface );
+	color: var( --color-text );
+	padding: 8px 16px;
+	border-radius: var( --radius-inline );
+}
+
+.lunar-skip-link.screen-reader-text:focus {
+	left: 8px;
+	top: 8px;
+}
+
+/* ---------------------------------------------------------------------
+   Visually hidden utility — content stays available to screen readers
+   but is never shown, unlike the skip link above which reveals itself
+   on focus. Reusable anywhere a visual icon already conveys meaning.
+   ------------------------------------------------------------------ */
+
+.lunar-visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect( 0, 0, 0, 0 );
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Site header
+   ------------------------------------------------------------------ */
+
+.lunar-site-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 16px 40px;
+	background: var( --color-surface );
+	border-bottom: 1px solid var( --color-border );
+	flex-wrap: wrap;
+}
+
+.lunar-brand {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-family: var( --font-display );
+	font-size: 1.4rem;
+	font-weight: 700;
+	color: var( --color-text );
+	text-decoration: none;
+}
+
+.lunar-brand__mark {
+	color: var( --color-accent );
+	font-size: 1.2rem;
+}
+
+.lunar-site-nav {
+	display: flex;
+	align-items: center;
+}
+
+.lunar-site-nav > a {
+	color: var( --color-text-muted );
+	font-family: var( --font-body );
+	font-size: 0.95rem;
+	text-decoration: none;
+}
+
+.lunar-site-nav__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 28px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.lunar-site-nav__list a {
+	color: var( --color-text-muted );
+	font-family: var( --font-body );
+	font-size: 0.95rem;
+	text-decoration: none;
+}
+
+.lunar-site-nav > a:hover,
+.lunar-site-nav__list a:hover {
+	color: var( --color-accent );
+	text-decoration: underline;
+}
+
+.lunar-search-icon {
+	width: 38px;
+	height: 38px;
+	flex-shrink: 0;
+	border: 1px solid var( --color-border );
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var( --color-text-muted );
+	text-decoration: none;
+}
+
+.lunar-search-icon:hover {
+	color: var( --color-accent );
+	border-color: var( --color-accent );
+}
+
+.lunar-search-icon svg {
+	display: block;
+}
+
+/* ---------------------------------------------------------------------
+   Mobile nav toggle — hidden on desktop, shown at the mobile breakpoint
+   below. Styled to match the search icon (circular, same stroke style)
+   for visual consistency between the two header icon buttons.
+   ------------------------------------------------------------------ */
+
+.lunar-nav-toggle {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	flex-shrink: 0;
+	background: none;
+	border: 1px solid var( --color-border );
+	border-radius: 50%;
+	color: var( --color-text-muted );
+	cursor: pointer;
+}
+
+.lunar-nav-toggle:hover {
+	color: var( --color-accent );
+	border-color: var( --color-accent );
+}
+
+.lunar-nav-toggle svg {
+	display: block;
+}
+
+.lunar-nav-toggle[ aria-expanded="true" ] {
+	color: var( --color-accent );
+	border-color: var( --color-accent );
+	background: var( --color-surface-2 );
+}
+
+.lunar-nav-close {
+	display: none;
+}
+
+/* ---------------------------------------------------------------------
+   Nav dropdown — applies to both the Main Menu and a per-game Secondary
+   Menu, since they share the exact same markup (see header.php). Any
+   menu item with children (built normally in Appearance → Menus) gets
+   a dropdown on desktop and an accordion on mobile, driven by the same
+   ".is-open" class toggled in assets/js/navigation.js.
+   ------------------------------------------------------------------ */
+
+.lunar-site-nav__list li {
+	position: relative;
+}
+
+.lunar-site-nav__list .menu-item-has-children > a::after {
+	content: '\25BE';
+	margin-left: 6px;
+	font-size: 0.7em;
+}
+
+.lunar-site-nav__list .menu-item-has-children.is-open > a::after {
+	content: '\25B4';
+}
+
+.lunar-site-nav__list .sub-menu {
+	display: none;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.lunar-site-nav__list .menu-item-has-children.is-open > .sub-menu {
+	display: block;
+}
+
+/* ---------------------------------------------------------------------
+   Site footer
+   ------------------------------------------------------------------ */
+
+.lunar-site-footer {
+	margin-top: auto;
+	background: var( --color-surface );
+	border-top: 1px solid var( --color-border );
+	padding: 20px 40px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	font-size: 0.85rem;
+	color: var( --color-text-muted );
+}
+
+.lunar-site-footer__links-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.lunar-site-footer__links-list a {
+	color: var( --color-text-muted );
+	text-decoration: none;
+}
+
+.lunar-site-footer__links-list a:hover {
+	color: var( --color-accent );
+	text-decoration: underline;
+}
+
+.lunar-site-footer__notice {
+	margin: 0;
+	font-size: 0.8rem;
+}
+
+/* ---------------------------------------------------------------------
+   Nav dropdown — desktop presentation
+   Sub-menus float below their parent item and reveal on hover or
+   keyboard focus, with ".is-open" (added by navigation.js) as a
+   touch-friendly fallback for devices without real hover support.
+   ------------------------------------------------------------------ */
+
+@media ( min-width: 641px ) {
+
+	/* Extends the parent item's own hoverable box downward so the
+	   visual gap above the dropdown is still part of it — without
+	   this, the cursor briefly leaves the hover area while crossing
+	   the gap and the dropdown closes before it can be reached. */
+	.lunar-site-nav__list .menu-item-has-children {
+		padding-bottom: 10px;
+	}
+
+	.lunar-site-nav__list .sub-menu {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: 20;
+		min-width: 180px;
+		padding: 8px 0;
+		background: var( --color-surface );
+		border: 1px solid var( --color-border );
+		border-radius: var( --radius-card );
+	}
+
+	.lunar-site-nav__list .sub-menu a {
+		display: block;
+		padding: 8px 16px;
+		white-space: nowrap;
+	}
+
+	.lunar-site-nav__list .menu-item-has-children:hover > .sub-menu,
+	.lunar-site-nav__list .menu-item-has-children:focus-within > .sub-menu {
+		display: block;
+	}
+}
+
+/* ---------------------------------------------------------------------
+   Header nav — mobile off-canvas panel
+   The nav toggle moves to the left of the logo, and whichever nav is
+   active (Main Menu or a per-game Secondary Menu — see header.php)
+   slides in from the left edge of the screen as a fixed panel with its
+   own scroll and a dimmed overlay behind it, both driven by ".is-open"
+   (see assets/js/navigation.js).
+   ------------------------------------------------------------------ */
+
+@media ( max-width: 640px ) {
+
+	.lunar-nav-toggle {
+		display: flex;
+		order: -1;
+	}
+
+	.lunar-nav-close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		margin: 0 0 16px auto;
+		background: none;
+		border: 1px solid var( --color-border );
+		border-radius: 50%;
+		color: var( --color-text-muted );
+		cursor: pointer;
+	}
+
+	.lunar-nav-overlay {
+		display: none;
+		position: fixed;
+		inset: 0;
+		z-index: 90;
+		background: rgba( 43, 32, 21, 0.45 );
+	}
+
+	.lunar-nav-overlay.is-open {
+		display: block;
+	}
+
+	.lunar-nav-slot {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		width: min( 300px, 85vw );
+		height: 100vh;
+		overflow-y: auto;
+		padding: 16px;
+		background: var( --color-surface );
+		border-right: 1px solid var( --color-border );
+		visibility: hidden;
+		transform: translateX( -100% );
+		transition: transform 0.25s ease, visibility 0s linear 0.25s;
+	}
+
+	.lunar-nav-slot.is-open {
+		visibility: visible;
+		transform: translateX( 0 );
+		transition: transform 0.25s ease, visibility 0s linear 0s;
+	}
+
+	.lunar-site-nav {
+		display: block;
+	}
+
+	.lunar-site-nav__list {
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.lunar-site-nav__list .sub-menu {
+		padding-left: 16px;
+	}
+}
+
+/* ---------------------------------------------------------------------
+   Locks background scrolling while the mobile nav panel is open.
+   Toggled on <body> by assets/js/navigation.js.
+   ------------------------------------------------------------------ */
+
+.lunar-no-scroll {
+	overflow: hidden;
+}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Frontend stylesheet enqueuing and Customizer color/font overrides.
+ * Frontend stylesheet/script enqueuing and Customizer color/font overrides.
  *
  * @package Lunar
  */
@@ -57,9 +57,10 @@ function lunar_resource_hints( array $urls, string $relation_type ): array {
 add_filter( 'wp_resource_hints', 'lunar_resource_hints', 10, 2 );
 
 /**
- * Enqueues the default design tokens, the main stylesheet, the active
- * Google Fonts, and outputs any Customizer color/font overrides as inline
- * CSS custom properties on top.
+ * Enqueues the default design tokens, the main stylesheet, the shared
+ * layout stylesheet, the header navigation script, the active Google
+ * Fonts, and outputs any Customizer color/font overrides as inline CSS
+ * custom properties on top.
  */
 function lunar_enqueue_styles(): void {
 	$version = wp_get_theme()->get( 'Version' );
@@ -76,6 +77,24 @@ function lunar_enqueue_styles(): void {
 		get_stylesheet_uri(),
 		array( 'lunar-tokens' ),
 		$version
+	);
+
+	wp_enqueue_style(
+		'lunar-layout',
+		get_template_directory_uri() . '/assets/css/layout.css',
+		array( 'lunar-style' ),
+		$version
+	);
+
+	wp_enqueue_script(
+		'lunar-navigation',
+		get_template_directory_uri() . '/assets/js/navigation.js',
+		array(),
+		$version,
+		array(
+			'strategy'  => 'defer',
+			'in_footer' => true,
+		)
 	);
 
 	lunar_enqueue_google_fonts();

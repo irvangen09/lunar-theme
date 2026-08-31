@@ -36,8 +36,8 @@ while ( have_posts() ) :
 		if ( ! empty( $lunar_game_terms ) ) :
 			?>
 			<section class="lunar-section">
-				<p class="lunar-section__label"><?php esc_html_e( 'Jelajahi Game', 'lunar' ); ?></p>
-				<h2 class="lunar-section__title"><?php esc_html_e( 'Pilih judul game', 'lunar' ); ?></h2>
+				<p class="lunar-section__label"><?php echo esc_html( lunar_get_homepage_text( 'games_label' ) ); ?></p>
+				<h2 class="lunar-section__title"><?php echo esc_html( lunar_get_homepage_text( 'games_title' ) ); ?></h2>
 
 				<div class="lunar-game-tile-grid">
 					<?php
@@ -90,8 +90,8 @@ while ( have_posts() ) :
 		if ( $lunar_latest_articles->have_posts() ) :
 			?>
 			<section class="lunar-section">
-				<p class="lunar-section__label"><?php esc_html_e( 'Baru diperbarui', 'lunar' ); ?></p>
-				<h2 class="lunar-section__title"><?php esc_html_e( 'Artikel terbaru', 'lunar' ); ?></h2>
+				<p class="lunar-section__label"><?php echo esc_html( lunar_get_homepage_text( 'articles_label' ) ); ?></p>
+				<h2 class="lunar-section__title"><?php echo esc_html( lunar_get_homepage_text( 'articles_title' ) ); ?></h2>
 
 				<div class="lunar-article-grid">
 					<?php

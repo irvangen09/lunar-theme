@@ -1,6 +1,7 @@
 <?php
 /**
- * Customizer controls for overriding the theme's default colors and fonts.
+ * Customizer controls for overriding the theme's default colors, fonts,
+ * and homepage section text.
  *
  * @package Lunar
  */
@@ -150,8 +151,52 @@ function lunar_sanitize_font_choice( string $value, WP_Customize_Setting $settin
 }
 
 /**
- * Registers the Lunar Style Settings panel, and the Colors and Typography
- * sections with one control per token.
+ * Customizable homepage section text: default copy and Customizer label.
+ * Unlike color/font tokens these have no CSS variable — they're read
+ * directly by front-page.php via lunar_get_homepage_text().
+ *
+ * @return array<string, array{default: string, label: string}>
+ */
+function lunar_get_homepage_text_tokens(): array {
+	return array(
+		'games_label'    => array(
+			'default' => __( 'Jelajahi Game', 'lunar' ),
+			'label'   => __( 'Games Section — Eyebrow Label', 'lunar' ),
+		),
+		'games_title'    => array(
+			'default' => __( 'Pilih judul game', 'lunar' ),
+			'label'   => __( 'Games Section — Heading', 'lunar' ),
+		),
+		'articles_label' => array(
+			'default' => __( 'Baru diperbarui', 'lunar' ),
+			'label'   => __( 'Articles Section — Eyebrow Label', 'lunar' ),
+		),
+		'articles_title' => array(
+			'default' => __( 'Artikel terbaru', 'lunar' ),
+			'label'   => __( 'Articles Section — Heading', 'lunar' ),
+		),
+	);
+}
+
+/**
+ * Returns a homepage text token's active value: the saved override, or its default.
+ *
+ * @param string $token_key Key from lunar_get_homepage_text_tokens(), e.g. 'games_title'.
+ * @return string
+ */
+function lunar_get_homepage_text( string $token_key ): string {
+	$tokens = lunar_get_homepage_text_tokens();
+
+	if ( ! isset( $tokens[ $token_key ] ) ) {
+		return '';
+	}
+
+	return get_theme_mod( "lunar_homepage_{$token_key}", $tokens[ $token_key ]['default'] );
+}
+
+/**
+ * Registers the Lunar Style Settings panel (Colors and Typography
+ * sections), plus a standalone Homepage Content section for section text.
  *
  * @param WP_Customize_Manager $wp_customize Customizer manager instance.
  */
@@ -226,6 +271,37 @@ function lunar_customize_register( WP_Customize_Manager $wp_customize ): void {
 				'label'   => $token['label'],
 				'type'    => 'select',
 				'choices' => $font_choices,
+			)
+		);
+	}
+
+	$wp_customize->add_section(
+		'lunar_homepage_content',
+		array(
+			'title'       => __( 'Homepage Content', 'lunar' ),
+			'description' => __( 'Edit the section labels shown on the homepage.', 'lunar' ),
+			'priority'    => 25,
+		)
+	);
+
+	foreach ( lunar_get_homepage_text_tokens() as $token_key => $token ) {
+		$setting_id = "lunar_homepage_{$token_key}";
+
+		$wp_customize->add_setting(
+			$setting_id,
+			array(
+				'default'           => $token['default'],
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			)
+		);
+
+		$wp_customize->add_control(
+			$setting_id,
+			array(
+				'section' => 'lunar_homepage_content',
+				'label'   => $token['label'],
+				'type'    => 'text',
 			)
 		);
 	}

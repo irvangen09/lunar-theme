@@ -375,3 +375,67 @@
 .lunar-no-scroll {
 	overflow: hidden;
 }
+
+/* ---------------------------------------------------------------------
+   Breadcrumb
+   ------------------------------------------------------------------ */
+
+.lunar-breadcrumb {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 18px 40px 0;
+	font-size: 0.85rem;
+	color: var( --color-text-muted );
+}
+
+.lunar-breadcrumb__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.lunar-breadcrumb__item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.lunar-breadcrumb__item:not( :last-child )::after {
+	content: '\203A';
+	color: var( --color-border );
+}
+
+.lunar-breadcrumb__item a {
+	color: var( --color-text-muted );
+	text-decoration: none;
+}
+
+.lunar-breadcrumb__item a:hover {
+	color: var( --color-accent );
+	text-decoration: underline;
+}
+
+.lunar-breadcrumb__item span[aria-current] {
+	color: var( --color-text );
+	font-weight: 500;
+}
+
+/* ---------------------------------------------------------------------
+   Badge (content-type badge, used on single article, cards, results)
+   ------------------------------------------------------------------ */
+
+.lunar-badge {
+	display: inline-block;
+	font-family: var( --font-mono );
+	font-size: 0.7rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 4px 10px;
+	border-radius: var( --radius-inline );
+	background: var( --color-surface-2 );
+	color: var( --color-accent-secondary );
+	border: 1px solid var( --color-border );
+}

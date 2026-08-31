@@ -58,9 +58,9 @@ add_filter( 'wp_resource_hints', 'lunar_resource_hints', 10, 2 );
 
 /**
  * Enqueues the default design tokens, the main stylesheet, the shared
- * layout stylesheet, the header navigation script, the active Google
- * Fonts, and outputs any Customizer color/font overrides as inline CSS
- * custom properties on top.
+ * layout stylesheet, the header navigation script, any template-specific
+ * stylesheets, the active Google Fonts, and outputs any Customizer
+ * color/font overrides as inline CSS custom properties on top.
  */
 function lunar_enqueue_styles(): void {
 	$version = wp_get_theme()->get( 'Version' );
@@ -96,6 +96,16 @@ function lunar_enqueue_styles(): void {
 			'in_footer' => true,
 		)
 	);
+
+	// Template-specific stylesheets — only loaded on the template that needs them.
+	if ( is_front_page() ) {
+		wp_enqueue_style(
+			'lunar-homepage',
+			get_template_directory_uri() . '/assets/css/homepage.css',
+			array( 'lunar-style' ),
+			$version
+		);
+	}
 
 	lunar_enqueue_google_fonts();
 

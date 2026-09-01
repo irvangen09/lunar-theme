@@ -107,10 +107,21 @@ function lunar_enqueue_styles(): void {
 		);
 	}
 
-	if ( function_exists( 'lunar_wiki_get_taxonomy_slug_game' ) && is_tax( lunar_wiki_get_taxonomy_slug_game() ) ) {
+	if ( function_exists( 'lunar_wiki_get_taxonomy_slug_game' ) && ( is_tax( lunar_wiki_get_taxonomy_slug_game() ) || is_author() ) ) {
 		wp_enqueue_style(
 			'lunar-archive',
 			get_template_directory_uri() . '/assets/css/archive.css',
+			array( 'lunar-style' ),
+			$version
+		);
+	}
+
+	if ( is_author() ) {
+		wp_enqueue_style( 'dashicons' );
+
+		wp_enqueue_style(
+			'lunar-author',
+			get_template_directory_uri() . '/assets/css/author.css',
 			array( 'lunar-style' ),
 			$version
 		);

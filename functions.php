@@ -15,4 +15,6 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/game-context.php';
 require get_template_directory() . '/inc/game-queries.php';
 require get_template_directory() . '/inc/breadcrumb.php';
+require get_template_directory() . '/inc/author-box.php';
+require get_template_directory() . '/inc/author-query.php';
 require get_template_directory() . '/inc/enqueue.php';

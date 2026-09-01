@@ -439,3 +439,39 @@
 	color: var( --color-accent-secondary );
 	border: 1px solid var( --color-border );
 }
+
+/* ---------------------------------------------------------------------
+   Filter pill (Game archive content-type filter, Search Content Type
+   filter)
+   ------------------------------------------------------------------ */
+
+.lunar-filter-bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 20px 40px 0;
+}
+
+.lunar-filter-pill {
+	font-family: var( --font-mono );
+	font-size: 0.78rem;
+	padding: 7px 16px;
+	border-radius: 999px;
+	border: 1px solid var( --color-border );
+	background: var( --color-surface );
+	color: var( --color-text-muted );
+	text-decoration: none;
+}
+
+.lunar-filter-pill:hover {
+	text-decoration: underline;
+}
+
+.lunar-filter-pill.is-active {
+	background: var( --color-accent );
+	border-color: var( --color-accent );
+	color: var( --color-surface );
+	text-decoration: none;
+}

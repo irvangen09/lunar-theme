@@ -107,6 +107,15 @@ function lunar_enqueue_styles(): void {
 		);
 	}
 
+	if ( function_exists( 'lunar_wiki_get_taxonomy_slug_game' ) && is_tax( lunar_wiki_get_taxonomy_slug_game() ) ) {
+		wp_enqueue_style(
+			'lunar-archive',
+			get_template_directory_uri() . '/assets/css/archive.css',
+			array( 'lunar-style' ),
+			$version
+		);
+	}
+
 	lunar_enqueue_google_fonts();
 
 	$overrides = array();

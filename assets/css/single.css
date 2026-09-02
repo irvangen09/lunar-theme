@@ -1,0 +1,199 @@
+/**
+ * Wiki Article page styles. Infobox's own card appearance is styled by
+ * the block itself — this file only arranges the two-column layout and
+ * its sticky behavior.
+ */
+
+.lunar-article {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 24px 40px 64px;
+
+	/* Explicit width stops deeply-nested non-wrapping content (e.g. a
+	   Tabs strip) from forcing this flex item — and the whole page —
+	   wider than the viewport. */
+	width: 100%;
+	min-width: 0;
+}
+
+.lunar-article__layout {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 40px;
+}
+
+.lunar-article__layout:has( .lunar-article__sidebar ) {
+	grid-template-columns: 1fr 320px;
+	/* align-items stays at its default (stretch) on purpose: the
+	   sidebar's box then matches the content column's height, which is
+	   what makes the sticky rule below stop by itself at the end of the
+	   content — no scroll cap, no JS needed. */
+}
+
+.lunar-article__content {
+	grid-column: 1;
+	grid-row: 1;
+	min-width: 0; /* prevents wide inner content from expanding the grid track */
+}
+
+.lunar-article__sidebar {
+	grid-column: 2;
+	grid-row: 1;
+	position: sticky;
+	top: 24px;
+}
+
+@media ( max-width: 640px ) {
+	.lunar-article__layout {
+		display: block;
+	}
+
+	.lunar-article__sidebar {
+		position: static;
+		margin-bottom: 24px;
+	}
+
+	.lunar-infobox {
+		width: 100%;
+		max-width: none;
+	}
+}
+
+.lunar-article__title {
+	font-family: var( --font-display );
+	font-size: 2.6rem;
+	font-weight: 700;
+	line-height: 1.15;
+	margin: 14px 0 8px;
+}
+
+.lunar-article__byline {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 16px;
+	font-size: 0.85rem;
+	color: var( --color-text-muted );
+}
+
+.lunar-article__byline-avatar {
+	border-radius: 50%;
+}
+
+.lunar-article__byline-text a {
+	color: var( --color-text );
+	font-weight: 600;
+}
+
+.lunar-article__tagline {
+	font-family: var( --font-body );
+	font-style: italic;
+	color: var( --color-text-muted );
+	font-size: 1.05rem;
+	margin: 0 0 24px;
+}
+
+.lunar-article__content p,
+.lunar-article__content ul,
+.lunar-article__content ol,
+.lunar-article__content blockquote,
+.lunar-article__content figure.wp-block-image,
+.lunar-article__content figure.wp-block-table {
+	margin: 20px 0;
+}
+
+/* .lunar-accordion-item__title / .lunar-timeline-item__title excluded
+   below: they're headings structurally, but a class+type selector here
+   would outrank Lunar Blocks' own class-only rule by specificity and
+   silently override it. */
+
+.lunar-article__content h2:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-article__content h3:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-article__content h4:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-article__content h5:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-article__content h6:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
+	font-family: var( --font-display );
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.lunar-article__content h2:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
+	font-size: 1.5rem;
+	margin: 40px 0 8px;
+}
+
+.lunar-article__content h3:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
+	font-size: 1.25rem;
+	margin: 32px 0 8px;
+}
+
+.lunar-article__content h4:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
+	font-size: 1.1rem;
+	margin: 28px 0 6px;
+}
+
+.lunar-article__content h5:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
+	font-size: 1rem;
+	margin: 24px 0 6px;
+}
+
+.lunar-article__content h6:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
+	font-size: 0.9rem;
+	margin: 20px 0 6px;
+}
+
+.lunar-article__content h2:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-article__content h3:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-article__content h4:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-article__content h5:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-article__content h6:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-article__content p:first-child,
+.lunar-article__content ul:first-child,
+.lunar-article__content ol:first-child,
+.lunar-article__content blockquote:first-child,
+.lunar-article__content figure.wp-block-image:first-child,
+.lunar-article__content figure.wp-block-table:first-child {
+	margin-top: 0;
+}
+
+.lunar-article__content .wp-block-separator {
+	border: none;
+	border-bottom: 1px solid var( --color-border );
+	opacity: 1;
+	margin: 32px auto;
+}
+
+.lunar-article__content .wp-block-separator:not( .is-style-wide ) {
+	width: 100px;
+}
+
+.lunar-article__content .wp-block-separator.is-style-wide {
+	width: 100%;
+}
+
+.lunar-article__meta {
+	margin-top: 40px;
+	padding-top: 16px;
+	border-top: 1px solid var( --color-border );
+	font-size: 0.85rem;
+	color: var( --color-text-muted );
+}
+
+.lunar-article__updated {
+	margin: 0 0 8px;
+}
+
+.lunar-article__update-notes {
+	margin: 0;
+	padding-left: 20px;
+}
+
+.lunar-article__update-notes li {
+	margin-bottom: 4px;
+}
+
+@media ( max-width: 640px ) {
+	.lunar-article {
+		padding: 16px 20px 40px;
+	}
+}

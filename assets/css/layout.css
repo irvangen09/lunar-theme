@@ -3,24 +3,6 @@
  * Covers: site wrapper, site header (incl. nav dropdown), and site footer.
  */
 
-body {
-	margin: 0;
-	background: var( --color-background );
-	color: var( --color-text );
-	font-family: var( --font-body );
-	font-size: 16px;
-	line-height: 1.7;
-}
-
-a {
-	color: var( --color-accent );
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
 .lunar-site-wrapper {
 	display: flex;
 	flex-direction: column;
@@ -456,6 +438,12 @@ a:hover {
 	background: var( --color-surface-2 );
 	color: var( --color-accent-secondary );
 	border: 1px solid var( --color-border );
+}
+
+@media ( max-width: 640px ) {
+	.lunar-breadcrumb {
+		padding: 16px 20px 0;
+	}
 }
 
 /* ---------------------------------------------------------------------

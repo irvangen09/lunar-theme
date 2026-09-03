@@ -15,7 +15,7 @@
 
 .lunar-author-box__avatar {
 	flex-shrink: 0;
-	border-radius: var( --radius-card );
+	border-radius: 50%;
 }
 
 .lunar-author-box__body {

@@ -11,3 +11,36 @@ License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: lunar
 */
+
+/* ---------------------------------------------------------------------
+   Minimal reset — component-level styling is intentionally NOT here.
+   ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: var( --color-background );
+	color: var( --color-text );
+	font-family: var( --font-body );
+	line-height: 1.7;
+}
+
+img,
+svg {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	color: var( --color-accent );
+}

@@ -57,40 +57,49 @@ function lunar_resource_hints( array $urls, string $relation_type ): array {
 add_filter( 'wp_resource_hints', 'lunar_resource_hints', 10, 2 );
 
 /**
+ * filemtime() instead of a shared static Version — so editing a single
+ * asset busts its own cache immediately, without needing to remember to
+ * bump the theme header on every change.
+ */
+function lunar_asset_version( string $relative_path ): string {
+	$path = get_template_directory() . $relative_path;
+
+	return file_exists( $path ) ? (string) filemtime( $path ) : wp_get_theme()->get( 'Version' );
+}
+
+/**
  * Enqueues the default design tokens, the main stylesheet, the shared
  * layout stylesheet, the header navigation script, any template-specific
  * stylesheets, the active Google Fonts, and outputs any Customizer
  * color/font overrides as inline CSS custom properties on top.
  */
 function lunar_enqueue_styles(): void {
-	$version = wp_get_theme()->get( 'Version' );
-
 	wp_enqueue_style(
 		'lunar-tokens',
 		get_template_directory_uri() . '/assets/css/tokens.css',
 		array(),
-		$version
+		lunar_asset_version( '/assets/css/tokens.css' )
 	);
 
 	wp_enqueue_style(
 		'lunar-style',
 		get_stylesheet_uri(),
 		array( 'lunar-tokens' ),
-		$version
+		lunar_asset_version( '/style.css' )
 	);
 
 	wp_enqueue_style(
 		'lunar-layout',
 		get_template_directory_uri() . '/assets/css/layout.css',
 		array( 'lunar-style' ),
-		$version
+		lunar_asset_version( '/assets/css/layout.css' )
 	);
 
 	wp_enqueue_script(
 		'lunar-navigation',
 		get_template_directory_uri() . '/assets/js/navigation.js',
 		array(),
-		$version,
+		lunar_asset_version( '/assets/js/navigation.js' ),
 		array(
 			'strategy'  => 'defer',
 			'in_footer' => true,
@@ -103,7 +112,7 @@ function lunar_enqueue_styles(): void {
 			'lunar-homepage',
 			get_template_directory_uri() . '/assets/css/homepage.css',
 			array( 'lunar-style' ),
-			$version
+			lunar_asset_version( '/assets/css/homepage.css' )
 		);
 	}
 
@@ -112,7 +121,7 @@ function lunar_enqueue_styles(): void {
 			'lunar-archive',
 			get_template_directory_uri() . '/assets/css/archive.css',
 			array( 'lunar-style' ),
-			$version
+			lunar_asset_version( '/assets/css/archive.css' )
 		);
 	}
 
@@ -128,7 +137,7 @@ function lunar_enqueue_styles(): void {
 			'lunar-author',
 			get_template_directory_uri() . '/assets/css/author.css',
 			array( 'lunar-style' ),
-			$version
+			lunar_asset_version( '/assets/css/author.css' )
 		);
 	}
 
@@ -137,7 +146,7 @@ function lunar_enqueue_styles(): void {
 			'lunar-single',
 			get_template_directory_uri() . '/assets/css/single.css',
 			array( 'lunar-style' ),
-			$version
+			lunar_asset_version( '/assets/css/single.css' )
 		);
 	}
 

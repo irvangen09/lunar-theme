@@ -150,6 +150,15 @@ function lunar_enqueue_styles(): void {
 		);
 	}
 
+	if ( is_search() ) {
+		wp_enqueue_style(
+			'lunar-search',
+			get_template_directory_uri() . '/assets/css/search.css',
+			array( 'lunar-style' ),
+			lunar_asset_version( '/assets/css/search.css' )
+		);
+	}
+
 	lunar_enqueue_google_fonts();
 
 	$overrides = array();

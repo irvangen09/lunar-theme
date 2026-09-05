@@ -159,6 +159,16 @@ function lunar_enqueue_styles(): void {
 		);
 	}
 
+	// A Page used as the static front page is still technically a Page.
+	if ( is_page() && ! is_front_page() ) {
+		wp_enqueue_style(
+			'lunar-page',
+			get_template_directory_uri() . '/assets/css/page.css',
+			array( 'lunar-style' ),
+			lunar_asset_version( '/assets/css/page.css' )
+		);
+	}
+
 	lunar_enqueue_google_fonts();
 
 	$overrides = array();

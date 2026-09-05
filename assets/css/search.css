@@ -1,0 +1,160 @@
+/**
+ * Search Result styles — loaded only on is_search().
+ */
+
+.lunar-search {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 32px 40px 56px;
+}
+
+/* ---------------------------------------------------------------------
+   Search hero (label, form, result count)
+   ------------------------------------------------------------------ */
+
+.lunar-search-hero {
+	margin-bottom: 24px;
+}
+
+.lunar-search-hero__label {
+	font-family: var( --font-mono );
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var( --color-text-muted );
+	margin: 0 0 12px;
+}
+
+.lunar-search-form {
+	background: var( --color-surface );
+	border: 1px solid var( --color-border );
+	border-radius: var( --radius-card );
+	padding: 18px 20px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 14px 20px;
+}
+
+.lunar-search-form input[ type='text' ] {
+	flex: 1 1 260px;
+	border: 1px solid var( --color-border );
+	border-radius: var( --radius-inline );
+	background: var( --color-background );
+	padding: 10px 14px;
+	font-family: var( --font-body );
+	font-size: 1.05rem;
+	color: var( --color-text );
+}
+
+.lunar-search-form button {
+	font-family: var( --font-mono );
+	font-size: 0.85rem;
+	padding: 10px 20px;
+	border: none;
+	border-radius: var( --radius-inline );
+	background: var( --color-accent );
+	color: var( --color-surface );
+	cursor: pointer;
+}
+
+.lunar-search-form button:hover {
+	opacity: 0.9;
+}
+
+/* ---------------------------------------------------------------------
+   Contextual field-sync filters (e.g. "Tool Tier", "Role")
+   ------------------------------------------------------------------ */
+
+.lunar-search-form__fields {
+	flex-basis: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px 28px;
+	padding-top: 14px;
+	border-top: 1px dashed var( --color-border );
+}
+
+.lunar-field-filter {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 10px;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.lunar-field-filter__label {
+	font-family: var( --font-mono );
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var( --color-text-muted );
+	padding: 0;
+}
+
+.lunar-field-filter .lunar-filter-check {
+	font-size: 0.85rem;
+}
+
+.lunar-search-result-count {
+	font-size: 0.85rem;
+	color: var( --color-text-muted );
+	margin: 10px 0 0;
+}
+
+/* ---------------------------------------------------------------------
+   Result list
+   ------------------------------------------------------------------ */
+
+.lunar-result-list {
+	display: flex;
+	flex-direction: column;
+	margin-top: 8px;
+}
+
+.lunar-result-item {
+	display: grid;
+	grid-template-columns: 90px 90px 1fr;
+	gap: 14px;
+	align-items: baseline;
+	padding: 12px 0;
+	border-bottom: 1px solid var( --color-border );
+}
+
+.lunar-result-item__game {
+	font-family: var( --font-mono );
+	font-size: 0.68rem;
+	color: var( --color-accent-secondary );
+	text-transform: uppercase;
+}
+
+.lunar-result-item__type {
+	font-family: var( --font-mono );
+	font-size: 0.68rem;
+	color: var( --color-text-muted );
+	text-transform: uppercase;
+}
+
+.lunar-result-item__title {
+	font-size: 0.98rem;
+	color: var( --color-text );
+	text-decoration: none;
+}
+
+.lunar-result-item__title:hover {
+	color: var( --color-accent );
+	text-decoration: underline;
+}
+
+@media ( max-width: 640px ) {
+	.lunar-search {
+		padding: 20px 20px 40px;
+	}
+
+	.lunar-result-item {
+		grid-template-columns: 1fr;
+		gap: 4px;
+	}
+}

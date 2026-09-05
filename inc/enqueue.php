@@ -169,6 +169,15 @@ function lunar_enqueue_styles(): void {
 		);
 	}
 
+	if ( is_404() ) {
+		wp_enqueue_style(
+			'lunar-404',
+			get_template_directory_uri() . '/assets/css/404.css',
+			array( 'lunar-style' ),
+			lunar_asset_version( '/assets/css/404.css' )
+		);
+	}
+
 	lunar_enqueue_google_fonts();
 
 	$overrides = array();

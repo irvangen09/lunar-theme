@@ -127,12 +127,13 @@ function lunar_enqueue_styles(): void {
 
 	$lunar_is_wiki_article = function_exists( 'lunar_wiki_get_post_type_slug' )
 		&& is_singular( lunar_wiki_get_post_type_slug() );
+	$lunar_is_native_post  = is_singular( 'post' );
 
-	if ( is_author() || $lunar_is_wiki_article ) {
+	if ( is_author() || $lunar_is_wiki_article || $lunar_is_native_post ) {
 		wp_enqueue_style( 'dashicons' );
 	}
 
-	if ( is_author() ) {
+	if ( is_author() || $lunar_is_wiki_article || $lunar_is_native_post ) {
 		wp_enqueue_style(
 			'lunar-author',
 			get_template_directory_uri() . '/assets/css/author.css',
@@ -141,12 +142,21 @@ function lunar_enqueue_styles(): void {
 		);
 	}
 
-	if ( $lunar_is_wiki_article ) {
+	if ( $lunar_is_wiki_article || $lunar_is_native_post ) {
 		wp_enqueue_style(
 			'lunar-single',
 			get_template_directory_uri() . '/assets/css/single.css',
 			array( 'lunar-style' ),
 			lunar_asset_version( '/assets/css/single.css' )
+		);
+	}
+
+	if ( $lunar_is_native_post ) {
+		wp_enqueue_style(
+			'lunar-post',
+			get_template_directory_uri() . '/assets/css/post.css',
+			array( 'lunar-single' ),
+			lunar_asset_version( '/assets/css/post.css' )
 		);
 	}
 

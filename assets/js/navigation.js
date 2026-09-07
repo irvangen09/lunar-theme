@@ -20,6 +20,7 @@
 
 	var MOBILE_QUERY = '( max-width: 640px )';
 	var BODY_LOCK_CLASS = 'lunar-no-scroll';
+	var mobileQuery = window.matchMedia( MOBILE_QUERY );
 
 	var navToggle = document.querySelector( '.lunar-nav-toggle' );
 	var navSlot = document.getElementById( 'lunar-nav-slot' );
@@ -47,6 +48,16 @@
 		}
 
 		document.body.classList.toggle( BODY_LOCK_CLASS, isOpen );
+
+		// Spec calls for every submenu collapsed by default each time the
+		// panel opens, not just on first load — reset on close so the
+		// next open always starts from that state.
+		if ( ! isOpen ) {
+			parentLinks.forEach( function ( link ) {
+				link.parentElement.classList.remove( 'is-open' );
+				link.setAttribute( 'aria-expanded', 'false' );
+			} );
+		}
 	}
 
 	if ( navToggle && navSlot ) {
@@ -111,7 +122,7 @@
 			// keyboard focus, so clicking the link keeps navigating
 			// normally there. Only the mobile accordion needs the
 			// click intercepted.
-			if ( ! window.matchMedia( MOBILE_QUERY ).matches ) {
+			if ( ! mobileQuery.matches ) {
 				return;
 			}
 
@@ -134,7 +145,7 @@
 		// bubble and fire for the link itself and any submenu link
 		// inside it, mirroring :focus-within's own matching scope.
 		item.addEventListener( 'focusin', function () {
-			if ( window.matchMedia( MOBILE_QUERY ).matches ) {
+			if ( mobileQuery.matches ) {
 				return;
 			}
 
@@ -142,7 +153,7 @@
 		} );
 
 		item.addEventListener( 'focusout', function () {
-			if ( window.matchMedia( MOBILE_QUERY ).matches ) {
+			if ( mobileQuery.matches ) {
 				return;
 			}
 
@@ -159,7 +170,7 @@
 
 	// Resets the panel if the viewport is resized past the mobile
 	// breakpoint (e.g. rotating a tablet), so nothing stays stuck open.
-	window.matchMedia( MOBILE_QUERY ).addEventListener( 'change', function ( query ) {
+	mobileQuery.addEventListener( 'change', function ( query ) {
 		if ( ! query.matches ) {
 			setPanelOpen( false );
 		}

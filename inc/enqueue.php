@@ -116,7 +116,13 @@ function lunar_enqueue_styles(): void {
 		);
 	}
 
-	if ( function_exists( 'lunar_wiki_get_taxonomy_slug_game' ) && ( is_tax( lunar_wiki_get_taxonomy_slug_game() ) || is_author() ) ) {
+	// is_author() and the native category/tag/date archives all render
+	// through index.php (there's no dedicated template for any of them);
+	// is_tax( game ) is the only one with its own template file.
+	$lunar_is_game_archive = function_exists( 'lunar_wiki_get_taxonomy_slug_game' )
+		&& is_tax( lunar_wiki_get_taxonomy_slug_game() );
+
+	if ( is_author() || is_category() || is_tag() || is_date() || $lunar_is_game_archive ) {
 		wp_enqueue_style(
 			'lunar-archive',
 			get_template_directory_uri() . '/assets/css/archive.css',

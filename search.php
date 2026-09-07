@@ -56,7 +56,8 @@ if ( isset( $_GET['fields'] ) && is_array( $_GET['fields'] ) ) {
 		<h1 class="lunar-search-hero__label"><?php esc_html_e( 'Hasil Pencarian', 'lunar' ); ?></h1>
 
 		<form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="lunar-search-form">
-			<input type="text" name="s" value="<?php echo esc_attr( $lunar_search_query ); ?>" placeholder="<?php esc_attr_e( 'Cari artikel...', 'lunar' ); ?>">
+			<label class="lunar-visually-hidden" for="lunar-search-input"><?php esc_html_e( 'Cari artikel', 'lunar' ); ?></label>
+			<input type="text" id="lunar-search-input" name="s" value="<?php echo esc_attr( $lunar_search_query ); ?>" placeholder="<?php esc_attr_e( 'Cari artikel...', 'lunar' ); ?>">
 
 			<?php if ( '' !== $lunar_active_tipe ) : ?>
 				<input type="hidden" name="<?php echo esc_attr( $lunar_content_type_slug ); ?>" value="<?php echo esc_attr( $lunar_active_tipe ); ?>">

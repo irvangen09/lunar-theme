@@ -32,30 +32,44 @@ function lunar_get_selected_game_slugs(): array {
 
 // Which fields to offer, and which values, computed from posts matching
 // the current search/Game/Content Type filters — not a static list.
+// Result is cached briefly (10 min) since the underlying query has no
+// upper bound on how many posts it may need to scan as content grows.
 function lunar_get_active_field_filters(): array {
 	if ( ! function_exists( 'lunar_wiki_get_recognized_fields' ) || ! function_exists( 'lunar_wiki_get_post_type_slug' ) ) {
 		return array();
+	}
+
+	$search_term = get_search_query();
+
+	$content_type_slug = function_exists( 'lunar_wiki_get_taxonomy_slug_content_type' )
+		? lunar_wiki_get_taxonomy_slug_content_type()
+		: '';
+	$active_tipe    = $content_type_slug ? sanitize_title( (string) get_query_var( $content_type_slug ) ) : '';
+	$selected_games = lunar_get_selected_game_slugs();
+	sort( $selected_games );
+
+	$cache_key = 'lunar_field_filters_' . md5( (string) wp_json_encode( array( $search_term, $active_tipe, $selected_games ) ) );
+	$cached    = get_transient( $cache_key );
+
+	if ( is_array( $cached ) ) {
+		return $cached;
 	}
 
 	$args = array(
 		'post_type'      => lunar_wiki_get_post_type_slug(),
 		'post_status'    => 'publish',
 		'fields'         => 'ids',
-		'posts_per_page' => -1,
+		// Capped rather than -1: this only needs a representative sample
+		// to compute which filter pills to show, not every matching post.
+		'posts_per_page' => 500,
 		'no_found_rows'  => true,
 	);
 
-	$search_term = get_search_query();
 	if ( '' !== $search_term ) {
 		$args['s'] = $search_term;
 	}
 
 	$tax_query = array();
-
-	$content_type_slug = function_exists( 'lunar_wiki_get_taxonomy_slug_content_type' )
-		? lunar_wiki_get_taxonomy_slug_content_type()
-		: '';
-	$active_tipe        = $content_type_slug ? sanitize_title( (string) get_query_var( $content_type_slug ) ) : '';
 
 	if ( '' !== $active_tipe ) {
 		$tax_query[] = array(
@@ -65,16 +79,12 @@ function lunar_get_active_field_filters(): array {
 		);
 	}
 
-	if ( isset( $_GET['games'] ) && function_exists( 'lunar_wiki_get_taxonomy_slug_game' ) ) {
-		$selected_games = lunar_get_selected_game_slugs();
-
-		if ( ! empty( $selected_games ) ) {
-			$tax_query[] = array(
-				'taxonomy' => lunar_wiki_get_taxonomy_slug_game(),
-				'field'    => 'slug',
-				'terms'    => $selected_games,
-			);
-		}
+	if ( ! empty( $selected_games ) && function_exists( 'lunar_wiki_get_taxonomy_slug_game' ) ) {
+		$tax_query[] = array(
+			'taxonomy' => lunar_wiki_get_taxonomy_slug_game(),
+			'field'    => 'slug',
+			'terms'    => $selected_games,
+		);
 	}
 
 	if ( ! empty( $tax_query ) ) {
@@ -84,6 +94,7 @@ function lunar_get_active_field_filters(): array {
 	$matching_ids = get_posts( $args );
 
 	if ( empty( $matching_ids ) ) {
+		set_transient( $cache_key, array(), 10 * MINUTE_IN_SECONDS );
 		return array();
 	}
 
@@ -93,6 +104,10 @@ function lunar_get_active_field_filters(): array {
 	$active_filters = array();
 
 	foreach ( lunar_wiki_get_recognized_fields() as $field_slug => $field_label ) {
+		if ( ! function_exists( 'lunar_wiki_get_field_meta_key' ) ) {
+			continue;
+		}
+
 		$meta_key = lunar_wiki_get_field_meta_key( $field_slug );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $placeholders is a fixed set of %d tokens, not raw input.
@@ -123,6 +138,8 @@ function lunar_get_active_field_filters(): array {
 
 		$active_filters[ $field_slug ] = $values;
 	}
+
+	set_transient( $cache_key, $active_filters, 10 * MINUTE_IN_SECONDS );
 
 	return $active_filters;
 }
@@ -190,6 +207,10 @@ function lunar_filter_search_by_fields( WP_Query $query ): void {
 		$field = sanitize_key( $field );
 
 		if ( ! array_key_exists( $field, $recognized_fields ) ) {
+			continue;
+		}
+
+		if ( ! function_exists( 'lunar_wiki_get_field_meta_key' ) ) {
 			continue;
 		}
 
@@ -275,7 +296,24 @@ function lunar_redirect_content_type_archive(): void {
 		return;
 	}
 
-	wp_safe_redirect( home_url( '/?s=&' . $content_type_slug . '=' . rawurlencode( $term->slug ) ), 301 );
+	wp_safe_redirect( add_query_arg( $content_type_slug, $term->slug, home_url( '/' ) ), 301 );
 	exit;
 }
 add_action( 'template_redirect', 'lunar_redirect_content_type_archive' );
+
+// The redirect target above carries no `s` param, and WordPress only
+// sets is_search() true when `s` is non-empty — so without this, the
+// guard above would never see is_search() as true on the redirected
+// URL and would redirect to the same URL again, forever. Forcing it
+// here (before the pre_get_posts hooks further up, hence priority 1)
+// is also what makes search.php actually get selected as the template.
+function lunar_force_search_for_content_type_archive( WP_Query $query ): void {
+	if ( is_admin() || ! $query->is_main_query() || ! function_exists( 'lunar_wiki_get_taxonomy_slug_content_type' ) ) {
+		return;
+	}
+
+	if ( $query->is_tax( lunar_wiki_get_taxonomy_slug_content_type() ) ) {
+		$query->is_search = true;
+	}
+}
+add_action( 'pre_get_posts', 'lunar_force_search_for_content_type_archive', 1 );

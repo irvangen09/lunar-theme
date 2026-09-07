@@ -65,7 +65,14 @@ function lunar_get_game_secondary_menu_id(): ?int {
 		return null;
 	}
 
-	$menu_id = (int) get_term_meta( $term->term_id, 'lunar_wiki_secondary_menu_id', true );
+	// Falls back to the current literal value only if Lunar Wiki is
+	// inactive — normally always goes through the getter so a future
+	// rename on the Lunar Wiki side can't silently break this lookup.
+	$meta_key = function_exists( 'lunar_wiki_get_game_menu_meta_key' )
+		? lunar_wiki_get_game_menu_meta_key()
+		: 'lunar_wiki_secondary_menu_id';
+
+	$menu_id = (int) get_term_meta( $term->term_id, $meta_key, true );
 
 	if ( $menu_id <= 0 || ! wp_get_nav_menu_object( $menu_id ) ) {
 		return null;

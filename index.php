@@ -8,7 +8,11 @@
 get_header();
 ?>
 
-<main id="primary" class="site-main">
+<main id="main-content" class="lunar-archive">
+
+	<header class="lunar-archive__header">
+		<h1><?php the_archive_title(); ?></h1>
+	</header>
 
 	<?php if ( have_posts() ) : ?>
 
@@ -18,7 +22,7 @@ get_header();
 			?>
 			<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 				<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-				<div class="entry-content">
+				<div class="lunar-archive__excerpt">
 					<?php the_excerpt(); ?>
 				</div>
 			</article>

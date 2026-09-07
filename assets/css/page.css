@@ -45,46 +45,51 @@
    Headings (H2–H6)
    ------------------------------------------------------------------ */
 
-.lunar-page__content h2,
-.lunar-page__content h3,
-.lunar-page__content h4,
-.lunar-page__content h5,
-.lunar-page__content h6 {
+/* .lunar-accordion-item__title / .lunar-timeline-item__title excluded
+   below: they're headings structurally, but a class+type selector here
+   would outrank Lunar Blocks' own class-only rule by specificity and
+   silently override it. */
+
+.lunar-page__content h2:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-page__content h3:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-page__content h4:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-page__content h5:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ),
+.lunar-page__content h6:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
 	font-family: var( --font-display );
 	font-weight: 700;
 	line-height: 1.3;
 }
 
-.lunar-page__content h2 {
+.lunar-page__content h2:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
 	font-size: 1.5rem;
 	margin: 40px 0 8px;
 }
 
-.lunar-page__content h3 {
+.lunar-page__content h3:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
 	font-size: 1.25rem;
 	margin: 32px 0 8px;
 }
 
-.lunar-page__content h4 {
+.lunar-page__content h4:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
 	font-size: 1.1rem;
 	margin: 28px 0 6px;
 }
 
-.lunar-page__content h5 {
+.lunar-page__content h5:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
 	font-size: 1rem;
 	margin: 24px 0 6px;
 }
 
-.lunar-page__content h6 {
+.lunar-page__content h6:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ) {
 	font-size: 0.9rem;
 	margin: 20px 0 6px;
 }
 
-.lunar-page__content h2:first-child,
-.lunar-page__content h3:first-child,
-.lunar-page__content h4:first-child,
-.lunar-page__content h5:first-child,
-.lunar-page__content h6:first-child,
+.lunar-page__content h2:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-page__content h3:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-page__content h4:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-page__content h5:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
+.lunar-page__content h6:not( .lunar-accordion-item__title ):not( .lunar-timeline-item__title ):first-child,
 .lunar-page__content p:first-child,
 .lunar-page__content ul:first-child,
 .lunar-page__content ol:first-child,

@@ -250,7 +250,8 @@ function lunar_customize_register( WP_Customize_Manager $wp_customize ): void {
 		)
 	);
 
-	$font_choices = array_combine( array_keys( lunar_get_google_fonts() ), array_keys( lunar_get_google_fonts() ) );
+	$lunar_google_fonts = lunar_get_google_fonts();
+	$font_choices       = array_combine( array_keys( $lunar_google_fonts ), array_keys( $lunar_google_fonts ) );
 
 	foreach ( lunar_get_font_tokens() as $token_key => $token ) {
 		$setting_id = "lunar_font_{$token_key}";

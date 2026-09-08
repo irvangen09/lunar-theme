@@ -40,7 +40,7 @@ while ( have_posts() ) :
 	?>
 
 	<main id="main-content" class="lunar-article">
-		<article <?php post_class( 'lunar-article__entry' ); ?> id="post-<?php the_ID(); ?>">
+		<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
 			<?php if ( is_array( $lunar_content_type_terms ) && ! empty( $lunar_content_type_terms ) ) : ?>
 				<span class="lunar-badge">

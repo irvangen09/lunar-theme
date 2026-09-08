@@ -19,7 +19,7 @@ while ( have_posts() ) :
 	?>
 
 	<main id="main-content" class="lunar-page">
-		<article <?php post_class( 'lunar-page__entry' ); ?> id="post-<?php the_ID(); ?>">
+		<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 			<h1 class="lunar-page__title"><?php the_title(); ?></h1>
 
 			<div class="lunar-page__content">

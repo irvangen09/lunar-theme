@@ -14,8 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Returns the specific game term (child-level, e.g. "Friends of Mineral
  * Town") relevant to the current request, or null outside of any game
  * context (e.g. homepage, search results, a franchise-level archive).
- *
- * @return WP_Term|null
  */
 function lunar_get_current_game_term(): ?WP_Term {
 	if ( ! function_exists( 'lunar_wiki_get_post_type_slug' ) || ! function_exists( 'lunar_wiki_get_taxonomy_slug_game' ) ) {
@@ -55,8 +53,6 @@ function lunar_get_current_game_term(): ?WP_Term {
  * Returns the WordPress menu ID assigned to the current game term, or
  * null if there is no game context, no menu was assigned, or the
  * assigned menu no longer exists.
- *
- * @return int|null
  */
 function lunar_get_game_secondary_menu_id(): ?int {
 	$term = lunar_get_current_game_term();

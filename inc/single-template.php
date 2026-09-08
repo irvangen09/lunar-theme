@@ -12,9 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 add_filter( 'single_template', 'lunar_wiki_article_template' );
 
-/**
- * @param string $template Template path WordPress would otherwise use.
- */
 function lunar_wiki_article_template( string $template ): string {
 	if ( ! function_exists( 'lunar_wiki_get_post_type_slug' ) ) {
 		return $template;

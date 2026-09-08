@@ -29,6 +29,17 @@
 	top: 8px;
 }
 
+/* Site-wide focus indicator — browsers already show a default outline,
+   this just makes it match the brand accent instead of generic blue. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+	outline: 2px solid var( --color-accent );
+	outline-offset: 2px;
+}
+
 /* ---------------------------------------------------------------------
    Visually hidden utility — content stays available to screen readers
    but is never shown, unlike the skip link above which reveals itself

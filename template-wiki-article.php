@@ -43,7 +43,7 @@ while ( have_posts() ) :
 		<article <?php post_class( 'lunar-article__entry' ); ?> id="post-<?php the_ID(); ?>">
 
 			<?php if ( is_array( $lunar_content_type_terms ) && ! empty( $lunar_content_type_terms ) ) : ?>
-				<span class="lunar-badge lunar-badge--category">
+				<span class="lunar-badge">
 					<?php echo esc_html( $lunar_content_type_terms[0]->name ); ?>
 				</span>
 			<?php endif; ?>

@@ -31,7 +31,7 @@ while ( have_posts() ) :
 	?>
 
 	<main id="main-content" class="lunar-article">
-		<article <?php post_class( 'lunar-article__entry' ); ?> id="post-<?php the_ID(); ?>">
+		<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
 			<?php if ( ! empty( $lunar_post_categories ) ) : ?>
 				<span class="lunar-badge">

@@ -85,7 +85,6 @@ function lunar_get_content_types_for_game( int $game_term_id ): array {
  * archive), otherwise the default archive link.
  *
  * @param WP_Term $term A Game term (Specific Title level).
- * @return string
  */
 function lunar_get_game_tile_url( WP_Term $term ): string {
 	if ( function_exists( 'lunar_wiki_get_game_tile_url_meta_key' ) ) {
@@ -107,7 +106,6 @@ function lunar_get_game_tile_url( WP_Term $term ): string {
  * that case (see front-page.php).
  *
  * @param WP_Term $term A Game term (Specific Title level).
- * @return int
  */
 function lunar_get_game_tile_image_id( WP_Term $term ): int {
 	if ( ! function_exists( 'lunar_wiki_get_game_tile_image_meta_key' ) ) {

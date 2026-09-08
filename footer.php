@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			);
 			?>
 
-		<?php else : ?>
+		<?php elseif ( current_user_can( 'edit_theme_options' ) ) : ?>
 
 			<p class="lunar-site-footer__notice">
 				<?php

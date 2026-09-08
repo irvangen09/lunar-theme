@@ -37,13 +37,7 @@ function lunar_enqueue_google_fonts(): void {
 	wp_enqueue_style( 'lunar-google-fonts', $url, array(), null );
 }
 
-/**
- * Adds a preconnect resource hint for the Google Fonts asset host.
- *
- * @param array<int, mixed> $urls          Resource hint URLs/attributes.
- * @param string            $relation_type Type of hint being processed.
- * @return array<int, mixed>
- */
+// Adds a preconnect resource hint for the Google Fonts asset host.
 function lunar_resource_hints( array $urls, string $relation_type ): array {
 	if ( 'preconnect' === $relation_type ) {
 		$urls[] = array(

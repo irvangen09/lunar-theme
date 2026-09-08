@@ -60,12 +60,6 @@ function lunar_get_color_tokens(): array {
 	);
 }
 
-/**
- * Returns a color token's active value: the saved override, or its default.
- *
- * @param string $token_key Key from lunar_get_color_tokens(), e.g. 'accent'.
- * @return string Hex color, including the leading '#'.
- */
 function lunar_get_color_value( string $token_key ): string {
 	$tokens = lunar_get_color_tokens();
 
@@ -101,12 +95,6 @@ function lunar_get_font_tokens(): array {
 	);
 }
 
-/**
- * Returns a font token's active family name: the saved override, or its default.
- *
- * @param string $token_key Key from lunar_get_font_tokens(), e.g. 'display'.
- * @return string Google Fonts family name.
- */
 function lunar_get_font_value( string $token_key ): string {
 	$tokens = lunar_get_font_tokens();
 
@@ -117,13 +105,7 @@ function lunar_get_font_value( string $token_key ): string {
 	return get_theme_mod( "lunar_font_{$token_key}", $tokens[ $token_key ]['default'] );
 }
 
-/**
- * Returns a font token's active value as a ready-to-use CSS font-family
- * declaration, with the generic fallback resolved from its bundled category.
- *
- * @param string $token_key Key from lunar_get_font_tokens(), e.g. 'display'.
- * @return string e.g. "'Fraunces', serif".
- */
+// Resolves the generic CSS fallback (e.g. "serif") from the font's bundled category.
 function lunar_get_font_css_value( string $token_key ): string {
 	$family   = lunar_get_font_value( $token_key );
 	$fonts    = lunar_get_google_fonts();
@@ -132,14 +114,7 @@ function lunar_get_font_css_value( string $token_key ): string {
 	return "'{$family}', {$category}";
 }
 
-/**
- * Sanitizes a font selection, falling back to the setting's own default if
- * the submitted value isn't a recognized bundled Google Fonts family.
- *
- * @param string               $value   Submitted value.
- * @param WP_Customize_Setting $setting Setting instance being sanitized.
- * @return string
- */
+// Falls back to the setting's own default if the submitted value isn't a recognized bundled font.
 function lunar_sanitize_font_choice( string $value, WP_Customize_Setting $setting ): string {
 	$fonts = lunar_get_google_fonts();
 
@@ -178,12 +153,6 @@ function lunar_get_homepage_text_tokens(): array {
 	);
 }
 
-/**
- * Returns a homepage text token's active value: the saved override, or its default.
- *
- * @param string $token_key Key from lunar_get_homepage_text_tokens(), e.g. 'games_title'.
- * @return string
- */
 function lunar_get_homepage_text( string $token_key ): string {
 	$tokens = lunar_get_homepage_text_tokens();
 
@@ -194,12 +163,8 @@ function lunar_get_homepage_text( string $token_key ): string {
 	return get_theme_mod( "lunar_homepage_{$token_key}", $tokens[ $token_key ]['default'] );
 }
 
-/**
- * Registers the Lunar Style Settings panel (Colors and Typography
- * sections), plus a standalone Homepage Content section for section text.
- *
- * @param WP_Customize_Manager $wp_customize Customizer manager instance.
- */
+// Registers the Lunar Style Settings panel (Colors and Typography
+// sections), plus a standalone Homepage Content section for section text.
 function lunar_customize_register( WP_Customize_Manager $wp_customize ): void {
 	$wp_customize->add_panel(
 		'lunar_style_settings',
